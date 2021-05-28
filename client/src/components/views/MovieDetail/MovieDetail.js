@@ -1,9 +1,44 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { API_URL, API_KEY, IMAGE_BASE_URL } from '../../Config';
+import MainImage from '../LandingPage/Sections/MainImage';
+import MovieInfo from './Sections/MovieInfo';
 
-function MovieDetail() {
+function MovieDetail(props) {
+
+  let movieId = props.match.params.movieId;
+
+  const [Movie, setMovie] = useState([])
+
+  useEffect(() => {
+
+    console.log(props.match);
+
+    let endpointCrews = `${API_URL}movie/${movieId}/credits?api_key=${API_KEY}`;
+    let endpointInfo = `${API_URL}movie/${movieId}?api_key=${API_KEY}`;
+
+    fetch(endpointInfo)
+      .then(response => response.json())
+      .then(response => {
+        console.log(response);
+        setMovie(response);
+      })
+  }, [])
   return (
     <div>
 
+      <MainImage
+        title={Movie.original_title}
+        text={Movie.overview}
+        image={`${IMAGE_BASE_URL}w1280${Movie.backdrop_path}`}
+
+      />
+      <div style={{ width: '85%', margin: '1rem auto' }}>
+        <MovieInfo movie={Movie} />
+      </div>
+      <br />
+      <div style={{ display: 'flex', justifyContent: 'Center', margin: '2rem' }}>
+
+      </div>
     </div>
   )
 }

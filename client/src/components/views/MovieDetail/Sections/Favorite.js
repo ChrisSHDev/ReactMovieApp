@@ -3,6 +3,12 @@ import Axios from 'axios';
 
 function Favorite(props) {
 
+  const movieId = props.movieId;
+  const userFrom = props.userFrom;
+  const movieTitle = props.movieInfo.title;
+  const moviePost = props.movieInfo.backdrop_path;
+  const movieRunTime = props.movieInfo.runtime;
+
   useEffect(() => {
 
     let variables = {
@@ -13,6 +19,7 @@ function Favorite(props) {
 
     Axios.post('/api/favorite/favoriteNumber', variables)
       .then(response => {
+        console.log(response.data);
         if (response.data.success) {
 
         } else {
